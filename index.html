@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Socket.IO chat</title>
+		<style>
+			* { margin: 0; padding: 0; box-sizing: border-box; }
+			body { font: 13px Helvetica, Arial;}
+			form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+			form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
+			form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+			#message { list-style-type: none; margin: 0; padding: 0; }
+			#message li { padding: 5px 10px; }
+			#message li:nth-child(odd) { background: #eee; }
+		</style>
+	</head>
+	<body>
+		<ul id="message"></ul>
+		<form action="">
+			<input id="m" autocomplete="off"/>
+			<button>Send</button>
+		</form>
+		<script src="/socket.io/socket.io.js"></script>
+		<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+		<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+		<script>
+			//IO
+			var socket = io();
+			//Send message
+			$('form').submit(function() {
+				var strJon = '{ "username": "Anonymous", "message": "' + $('#m').val() + '" }';
+				socket.emit('new message', strJon);
+				$('#m').val('');
+				return false;
+			});
+			//Show broadcast
+			socket.on('new message', function(strJson) {
+				var json = JSON.parse(strJson);
+				var username = json.username;
+				var message = json.message;
+				$('#message').append($('<li>').text(username + ': ' + message));
+			});
+		</script>
+	</body>
+</html>

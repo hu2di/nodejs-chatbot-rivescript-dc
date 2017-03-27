@@ -1,0 +1,10 @@
+{
+  "name": "socket-chat-example",
+  "version": "0.0.1",
+  "description": "socket.io chat app, nodejs, android",
+  "dependencies": {
+    "express": "^4.10.2",
+    "rivescript-dc",
+    "socket.io": "^1.3.7",
+  }
+}
